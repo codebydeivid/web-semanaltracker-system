@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semanal.Tracker</title>
+
+<!-- Fontes -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="shortcut icon" href="https://res.cloudinary.com/dqx5nqule/image/upload/v1777165003/favicon_ozu0wk.ico" type="image/x-icon">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- Efeito das Estrelas -->
+<svg width="0" height="0" style="position:absolute;pointer-events:none">
+  <defs>
+    <linearGradient id="hg" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="50%" stop-color="#f5c842"/>
+      <stop offset="50%" stop-color="#2a2a33"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- User Badge -->
+
+<div class="sync-badge local" id="sync-badge">conectando…</div>
+<div class="toast" id="toast"></div>
+
+<!-- Inicio -->
+<div id="home">
+
+  <!-- Ícones de navegação -->
+  <button class="icon-btn icon-quest"     data-tooltip="Registro da Semana"  onclick="openOverlay('ov-form')">
+    <img class="img-quest"     src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777070944/Registro_bjfohh.png"     alt="Registrar">
+  </button>
+
+  <button class="icon-btn icon-dashboard" data-tooltip="Dashboard da Semana" onclick="openOverlay('ov-dashboard')">
+    <img class="img-dashboard" src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777070054/Dashboard_twwtul.png"    alt="Dashboard">
+  </button>
+
+  <button class="icon-btn icon-calendar"  data-tooltip="Calendário"          onclick="openOverlay('ov-calendar')">
+    <img class="img-calendar"  src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777057916/Calend%C3%A1rio_bopnwl.png" alt="Calendário">
+  </button>
+
+  <button class="icon-btn icon-notes"     data-tooltip="Notas Gerais"        onclick="openOverlay('ov-notes')">
+    <img class="img-notes"     src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777065888/Notas_fiofvx.png"         alt="Notas">
+  </button>
+
+  <button class="icon-btn icon-help"      data-tooltip="Como funciona?"      onclick="openOverlay('ov-help')">
+    <img class="img-help"      src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777065518/Ajuda_wop5h4.png"         alt="Ajuda">
+  </button>
+
+  <button class="icon-btn icon-login"     data-tooltip="Cadastro & Login"    onclick="openOverlay('ov-login')">
+    <img class="img-login"     src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777089786/Foto_sivaxo.png"          alt="Login">
+  </button>
+
+  <!-- Nuvem central -->
+  <div class="center-cloud">
+    <img src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777136324/Nuvem_Eu_gtaz6i.png" id="cloud-main" alt="Nuvem">
+    <img src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777140265/Bal%C3%A3o_dfmz56.png" id="cloud-extra" alt="Balão">
+  </div>
+
+  <!-- Redes sociais -->
+  <div class="social-row">
+    <a class="social-btn" href="https://www.instagram.com/deivid.hik/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="5"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+      Instagram
+    </a>
+    <a class="social-btn" href="https://github.com/codebydeivid" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+      </svg>
+      GitHub
+    </a>
+  </div>
+</div>
+
+<!-- Poste decorativo -->
+<img src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777058241/Poste_milqgi.png" class="bg-poste" alt="">
+
+<!-- OVERLAY - LOGIN/CONTA -->
+<div class="overlay-backdrop" id="ov-login">
+  <div class="overlay-panel sm">
+    <div class="ov-header">
+      <span class="ov-title" id="login-ov-title">Entrar</span>
+      <button class="ov-back" onclick="closeOverlay('ov-login')">← Voltar</button>
+    </div>
+    <div class="ov-body">
+
+      <!-- Formulário de login -->
+      <div id="auth-login-view">
+        <div class="auth-error" id="auth-error"></div>
+        <input class="inp" id="auth-email"    type="email"    placeholder="E-mail" autocomplete="email">
+        <input class="inp" id="auth-password" type="password" placeholder="Senha"  autocomplete="current-password">
+        <button class="btn-primary"   onclick="login()">Entrar</button>
+        <div class="auth-divider">ou</div>
+        <button class="btn-secondary" onclick="showSignup()">Criar conta</button>
+      </div>
+
+      <!-- Formulário de cadastro -->
+      <div id="auth-signup-view" style="display:none">
+        <div class="auth-error" id="signup-error"></div>
+        <input class="inp" id="signup-email"     type="email"    placeholder="E-mail"                    autocomplete="email">
+        <input class="inp" id="signup-password"  type="password" placeholder="Senha (mínimo 6 caracteres)" autocomplete="new-password">
+        <input class="inp" id="signup-password2" type="password" placeholder="Confirmar senha"            autocomplete="new-password">
+        <button class="btn-primary"   onclick="signup()">Criar conta</button>
+        <div class="auth-divider">ou</div>
+        <button class="btn-secondary" onclick="showLogin()">Já tenho conta</button>
+      </div>
+
+      <!-- Usuário logado -->
+      <div id="auth-logged-view" style="display:none;text-align:center;padding:12px 0">
+        <div style="font-size:2.2rem;margin-bottom:10px"><i data-lucide="user"></i></div>
+        <div style="font-weight:700;margin-bottom:4px" id="logged-email-display"></div>
+        <div style="font-size:0.8rem;color:var(--muted);margin-bottom:20px">Conta conectada ao Supabase</div>
+        <button class="btn-secondary" style="width:auto;padding:10px 24px" onclick="logout()">Sair da conta</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY - AJUDA -->
+<div class="overlay-backdrop" id="ov-help">
+  <div class="overlay-panel md">
+    <div class="ov-header">
+      <span class="ov-title">Como usar</span>
+      <button class="ov-back" onclick="closeOverlay('ov-help')">← Voltar</button>
+    </div>
+    <div class="ov-body">
+      <div class="help-flow">
+        <div class="help-step"><div class="help-step-num">1</div><div>Clique em <strong>Registrar</strong> toda semana e avalie suas 8 categorias com estrelas de 1 a 5 (clique na metade esquerda da estrela para meia nota).</div></div>
+        <div class="help-step"><div class="help-step-num">2</div><div>Adicione <strong>metas específicas</strong> para a semana e <strong>notas</strong> de texto livre. Você marca as metas como concluídas no Dashboard.</div></div>
+        <div class="help-step"><div class="help-step-num">3</div><div>O sistema converte sua média em <strong>pontos de 0 a 50</strong>. A meta é <strong>40 pontos</strong> (= média 4.0★). Uma mensagem de feedback é gerada automaticamente.</div></div>
+        <div class="help-step"><div class="help-step-num">4</div><div>O <strong>Dashboard</strong> mostra gráfico radar, barras por categoria, tendência em relação à semana passada e o histórico de evolução.</div></div>
+        <div class="help-step"><div class="help-step-num">5</div><div>O <strong>Calendário</strong> marca as semanas registradas. Clique em qualquer dia com ponto azul para ver o resumo daquela semana.</div></div>
+        <div class="help-step"><div class="help-step-num">6</div><div>Use <strong>Notas</strong> para anotações livres que não são necessariamente de uma semana específica — ideias, reflexões, listas.</div></div>
+      </div>
+      <div class="help-grid">
+        <div class="help-card"><h4>Onde ficam os dados?</h4><p>No Supabase (nuvem). Acessível de qualquer dispositivo com sua conta. Se offline, salva localmente como backup.</p></div>
+        <div class="help-card"><h4>Como funciona a meia estrela?</h4><p>Clique na metade esquerda de uma estrela para a nota X.5. Metade direita para nota X cheia. O label ao lado mostra o valor.</p></div>
+        <div class="help-card"><h4>Sistema de pontos</h4><p>Pontos = (média ÷ 5) × 50. Exemplos: 5★ = 50pts, 4★ = 40pts (meta), 3★ = 30pts, 2★ = 20pts.</p></div>
+        <div class="help-card"><h4>Registrar de novo?</h4><p>Você pode editar a semana atual abrindo o Questionário novamente. A semana é identificada pelo número ISO — sem duplicatas.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY - QUESTIONÁRIO -->
+<div class="overlay-backdrop" id="ov-form">
+  <div class="overlay-panel">
+    <div class="ov-header">
+      <div>
+        <span class="ov-title">Como foi sua semana?</span><br>
+        <span class="week-badge" id="form-week-label" style="margin-top:6px"></span>
+      </div>
+      <button class="ov-back" onclick="closeOverlay('ov-form')">Voltar</button>
+    </div>
+    <div class="ov-body">
+      <div class="cats-grid" id="cat-grid"></div>
+      <div class="form-extras">
+        <div class="extras-card">
+          <div class="extras-title">Notas da semana</div>
+          <textarea class="inp" id="week-notes" placeholder="Reflexões, o que marcou, o que aconteceu de diferente…" style="margin-bottom:0"></textarea>
+        </div>
+        <div class="extras-card">
+          <div class="extras-title">Metas desta semana</div>
+          <div class="goals-list" id="goals-list"></div>
+          <button class="btn-add-goal" onclick="addGoalField()">+ Adicionar meta</button>
+        </div>
+      </div>
+      <div class="submit-bar">
+        <div>
+          <div class="avg-num" id="live-avg">—</div>
+          <div class="avg-sub">média · de 5.00 estrelas</div>
+          <div class="pts-preview" id="live-pts" style="color:var(--muted)">- pontos de 50</div>
+        </div>
+        <button class="btn-primary" style="max-width:280px" onclick="submitWeek()">Salvar semana</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY - DASHBOARD -->
+<div class="overlay-backdrop" id="ov-dashboard">
+  <div class="overlay-panel">
+    <div class="ov-header">
+      <span class="ov-title">Dashboard</span>
+      <button class="ov-back" onclick="closeOverlay('ov-dashboard')">← Voltar</button>
+    </div>
+    <div class="ov-body">
+      <div class="dash-week-nav">
+        <button class="cal-btn" onclick="dashNav(-1)">‹</button>
+        <span class="week-nav-label" id="dash-label">—</span>
+        <button class="cal-btn" onclick="dashNav(1)">›</button>
+      </div>
+      <div id="dash-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY - CALENDÁRIO -->
+<div class="overlay-backdrop" id="ov-calendar">
+  <div class="overlay-panel md">
+    <div class="ov-header">
+      <span class="ov-title">Calendário</span>
+      <button class="ov-back" onclick="closeOverlay('ov-calendar')">← Voltar</button>
+    </div>
+    <div class="ov-body">
+      <div class="cal-nav">
+        <button class="cal-btn" onclick="calNav(-1)">‹</button>
+        <h3 id="cal-title"></h3>
+        <button class="cal-btn" onclick="calNav(1)">›</button>
+      </div>
+      <div class="cal-grid-ov" id="cal-grid"></div>
+      <div class="section-heading" style="margin-top:18px">Histórico</div>
+      <div class="history-list" id="history-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY - NOTAS LIVRES -->
+<div class="overlay-backdrop" id="ov-notes">
+  <div class="overlay-panel">
+    <div class="ov-header">
+      <span class="ov-title">Notas</span>
+      <button class="ov-back" onclick="closeOverlay('ov-notes')">← Voltar</button>
+    </div>
+    <div class="ov-body">
+
+      <!-- Lista de notas -->
+      <div id="notes-list-view">
+        <div class="notes-toolbar">
+          <span style="font-size:0.82rem;color:var(--muted)" id="notes-count">0 notas</span>
+          <button class="btn-sm accent" onclick="openNoteEditor(null)">+ Nova nota</button>
+        </div>
+        <div class="notes-grid" id="notes-grid"></div>
+      </div>
+
+      <!-- Editor de nota -->
+      <div id="notes-editor-view" style="display:none">
+        <div class="notes-toolbar">
+          <button class="btn-sm" onclick="closeNoteEditor()">← Notas</button>
+          <div class="color-picker" id="note-color-picker"></div>
+          <div style="display:flex;gap:7px">
+            <button class="btn-sm"        onclick="deleteCurrentNote()">🗑 Apagar</button>
+            <button class="btn-sm accent" onclick="saveCurrentNote()">Salvar</button>
+          </div>
+        </div>
+        <div class="note-editor">
+          <input    class="inp note-editor-inp"  id="note-title-inp"   placeholder="Título da nota"  style="margin-bottom:0">
+          <textarea class="inp note-editor-body" id="note-content-inp" placeholder="Escreva aqui…"   style="margin-bottom:0"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY - DETALHE DE SEMANA -->
+<div class="overlay-backdrop" id="ov-week-detail">
+  <div class="overlay-panel md">
+    <div class="ov-header">
+      <h3 class="ov-title" id="week-detail-title"></h3>
+      <button class="ov-back" onclick="closeOverlay('ov-week-detail')">← Voltar</button>
+    </div>
+    <div class="ov-body" id="week-detail-body"></div>
+  </div>
+</div>
+
+<!-- Tooltip global -->
+<div class="tooltip" id="global-tooltip"></div>
+
+<script src="script.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
+</body>
+</html>
