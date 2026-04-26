@@ -29,15 +29,37 @@ function setSyncBadge(mode) {
 
 /* AUTH */
 function showLogin() {
-    document.getElementById('auth-login-view').style.display  = '';
-    document.getElementById('auth-signup-view').style.display = 'none';
+    document.getElementById('auth-login-view').style.display    = '';
+    document.getElementById('auth-signup-view').style.display   = 'none';
+    document.getElementById('auth-forgot-view') && (document.getElementById('auth-forgot-view').style.display  = 'none');
+    document.getElementById('auth-newpass-view') && (document.getElementById('auth-newpass-view').style.display = 'none');
     document.getElementById('auth-error').textContent = '';
 }
 
 function showSignup() {
-    document.getElementById('auth-signup-view').style.display = '';
-    document.getElementById('auth-login-view').style.display  = 'none';
+    document.getElementById('auth-signup-view').style.display   = '';
+    document.getElementById('auth-login-view').style.display    = 'none';
+    document.getElementById('auth-forgot-view') && (document.getElementById('auth-forgot-view').style.display  = 'none');
+    document.getElementById('auth-newpass-view') && (document.getElementById('auth-newpass-view').style.display = 'none');
     document.getElementById('signup-error').textContent = '';
+}
+
+function showForgot() {
+    document.getElementById('auth-forgot-view').style.display   = '';
+    document.getElementById('auth-login-view').style.display    = 'none';
+    document.getElementById('auth-signup-view').style.display   = 'none';
+    document.getElementById('auth-newpass-view').style.display  = 'none';
+    document.getElementById('forgot-error').textContent = '';
+}
+
+function showNewPassword() {
+    document.getElementById('auth-newpass-view').style.display  = '';
+    document.getElementById('auth-login-view').style.display    = 'none';
+    document.getElementById('auth-signup-view').style.display   = 'none';
+    document.getElementById('auth-forgot-view').style.display   = 'none';
+    document.getElementById('newpass-error').textContent = '';
+    // Abre o overlay de login automaticamente
+    openOverlayDirect('ov-login');
 }
 
 async function login() {
@@ -61,9 +83,37 @@ async function signup() {
     if (pw.length < 6)  { errEl.textContent = 'Senha mínima de 6 caracteres.'; return; }
     const { error } = await sb.auth.signUp({ email, password: pw });
     if (error) { errEl.textContent = error.message; return; }
-    errEl.style.color   = 'var(--green)';
+    errEl.style.color   = '#16a34a';
     errEl.textContent   = 'Para terminar a criação da conta verifique o email.';
     showToast('Conta criada!');
+}
+
+async function sendPasswordReset() {
+    const email = document.getElementById('forgot-email').value.trim();
+    const errEl = document.getElementById('forgot-error');
+    if (!email) { errEl.textContent = 'Informe seu e-mail.'; errEl.style.color = '#dc2626'; return; }
+    const { error } = await sb.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + window.location.pathname,
+    });
+    if (error) { errEl.textContent = error.message; errEl.style.color = '#dc2626'; return; }
+    errEl.style.color   = '#16a34a';
+    errEl.textContent   = 'Link enviado! Verifique sua caixa de e-mail.';
+    showToast('E-mail de recuperação enviado!');
+}
+
+async function saveNewPassword() {
+    const pw    = document.getElementById('newpass-password').value;
+    const pw2   = document.getElementById('newpass-password2').value;
+    const errEl = document.getElementById('newpass-error');
+    if (!pw)           { errEl.textContent = 'Digite a nova senha.'; errEl.style.color = '#dc2626'; return; }
+    if (pw.length < 6) { errEl.textContent = 'Senha mínima de 6 caracteres.'; errEl.style.color = '#dc2626'; return; }
+    if (pw !== pw2)    { errEl.textContent = 'As senhas não coincidem.'; errEl.style.color = '#dc2626'; return; }
+    const { error } = await sb.auth.updateUser({ password: pw });
+    if (error) { errEl.textContent = error.message; errEl.style.color = '#dc2626'; return; }
+    showToast('✦ Senha atualizada!');
+    closeOverlay('ov-login');
+    // Limpa o hash da URL sem recarregar
+    window.history.replaceState(null, '', window.location.pathname);
 }
 
 async function logout() {
@@ -75,27 +125,59 @@ async function logout() {
 }
 
 function updateAuthUI(user) {
+    const newpassView = document.getElementById('auth-newpass-view');
+    // Se está em modo de redefinição de senha, não mexe nas views
+    if (newpassView && newpassView.style.display !== 'none') return;
+
     if (user) {
         currentUser = user;
         setSyncBadge('online');
-
         document.getElementById('auth-login-view').style.display  = 'none';
         document.getElementById('auth-signup-view').style.display = 'none';
         document.getElementById('auth-logged-view').style.display = '';
         document.getElementById('logged-email-display').textContent = user.email;
     } else {
         setSyncBadge('local');
-
         document.getElementById('auth-logged-view').style.display = 'none';
         document.getElementById('auth-login-view').style.display  = '';
     }
-}   
+}
 
-sb.auth.onAuthStateChange((_event, session) => updateAuthUI(session?.user || null));
+// Abre overlay sem verificar autenticação (para o reset de senha)
+function openOverlayDirect(id) {
+    document.getElementById(id).classList.add('open');
+    document.getElementById(id).addEventListener('click', function handler(e) {
+        if (e.target === this) { closeOverlay(id); this.removeEventListener('click', handler); }
+    });
+}
+
+// Detecta token de reset de senha na URL (hash ou query string)
 (async () => {
+    const hash   = window.location.hash;
+    const params = new URLSearchParams(hash.replace('#', '?'));
+    const type   = params.get('type');
+
+    // Supabase envia type=recovery no hash quando vem do link de reset
+    if (type === 'recovery') {
+        // O Supabase JS já processa o token automaticamente via onAuthStateChange
+        // Só precisamos mostrar o formulário de nova senha
+        showNewPassword();
+        return;
+    }
+
     const { data: { session } } = await sb.auth.getSession();
     updateAuthUI(session?.user || null);
 })();
+
+// onAuthStateChange detecta o evento PASSWORD_RECOVERY
+sb.auth.onAuthStateChange((event, session) => {
+    if (event === 'PASSWORD_RECOVERY') {
+        // Usuário veio do link de e-mail — mostra formulário de nova senha
+        showNewPassword();
+        return;
+    }
+    updateAuthUI(session?.user || null);
+});
 
 /* OVERLAY ENGINE */
 let activeCharts = {};
