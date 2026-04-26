@@ -920,77 +920,128 @@ textarea.inp { resize: vertical; min-height: 86px; line-height: 1.55; }
 }
 .toast.show { opacity: 1; transform: translateY(0); }
 
-/* Respondividade */
+/* MOBILE */
+
+.mobile-poste-wrapper {
+  display: none;
+}
+
 @media (max-width: 768px) {
 
   /* Nuvem */
   .center-cloud {
-    position: fixed;
-    align-items: center;
-    top: 2vh;
-    z-index: 5;
+    position: relative;
   }
-  #cloud-main  { width: 55vw; max-width: 260px; }
-  #cloud-extra { width: 38vw; max-width: 160px; }
 
   @keyframes floatCloud {
-    0%   { transform: translateX(-50%) translateY(0px); }
-    50%  { transform: translateX(-50%) translateY(-8px); }
-    100% { transform: translateX(-50%) translateY(0px); }
+    0%   { transform: translateX(0) translateY(0px); }
+    50%  { transform: translateX(0) translateY(-8px); }
+    100% { transform: translateX(0) translateY(0px); }
   }
 
-  /* Poste */
-  .bg-poste {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  #cloud-main  {
+    width: 30vw; 
+    max-width: 240px; 
+    animation: floatCloud 4s ease-in-out infinite; 
+  }
+  #cloud-extra { 
+    width: 30vw; 
+    max-width: 150px;
+  }
+
+  /* Home */
+  #home {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 100vh;
+    padding-top: 20vh;
+  }
+  /* Poste desktop */
+  body > .bg-poste { display: none; }
+
+  /* Wrapper mobile */
+  .mobile-poste-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+  }
+
+  .mobile-poste-wrapper .bg-poste-mobile {
+    display: block;
     width: 100%;
     height: auto;
-    max-height: none;
-    object-fit: cover;
-    object-position: bottom center;
-    z-index: 1;
+    pointer-events: none;
   }
 
-  /* Login */
-  .icon-login { left: 3vw; top: 2vh; z-index: 6; }
-  .img-login  { width: 10vw; min-width: 48px; }
-
-  /* Icones Geral */
-  .icon-help,
-  .icon-calendar,
-  .icon-notes,
-  .icon-quest,
-  .icon-dashboard {
+  .mobile-poste-wrapper .social-row {
     position: fixed;
-    bottom: 12vh;
-    z-index: 4;
-    top: auto;
-    left: auto;
-    right: auto;
+    left: 10vh;
+    bottom: 10px;
+    transform: translateX(-50%);
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    z-index: 999;
   }
 
-  /* Icones Individuais */
-  .icon-dashboard { left: 2vw; }
-  .icon-quest     { left: 22vw; }
-  .icon-notes     { left: 50%; transform: translateX(-50%); }
-  .icon-calendar  { right: 22vw; }
-  .icon-help      { right: 2vw; }
-
-  /* Tamanhos menores */
-  .img-dashboard { width: 16vw; min-width: 52px; }
-  .img-quest     { width: 16vw; min-width: 52px; }
-  .img-notes     { width: 18vw; min-width: 56px; }
-  .img-calendar  { width: 16vw; min-width: 52px; }
-  .img-help      { width: 14vw; min-width: 48px; }
-
-  /* Redes Sociais */
-  .social-row {
+  /* O container de ícones centrado no poste */
+  .mobile-icons-col {
+    position: absolute;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 2vh;
-    gap: 8px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 20px;
+    z-index: 5;
+  }
+
+  /* Ícones dentro da coluna */
+  .mobile-icons-col .icon-btn {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+  }
+
+  /* Pendulo do calendário */
+  .mobile-icons-col .icon-calendar .img-calendar {
+    transform-origin: top center;
+    animation: pendulum 3s ease-in-out infinite;
+  }
+
+  /* Tamanhos em mobile */
+  .mobile-icons-col .img-dashboard,
+  .mobile-icons-col .img-quest,
+  .mobile-icons-col .img-calendar { width: 50vw; min-width: 70px; max-width: 500px; }
+  .mobile-icons-col .img-notes    { width: 55vw; min-width: 74px; max-width: 500px; }
+  .mobile-icons-col .img-help     { width: 55vw; min-width: 60px; max-width: 500px;  }
+
+  /* Ícones desktop originais */
+  body > #home > .icon-quest,
+  body > #home > .icon-dashboard,
+  body > #home > .icon-calendar,
+  body > #home > .icon-notes,
+  body > #home > .icon-help { display: none; }
+
+  /* Login */
+  .icon-login { position: fixed; left: 3vw; top: 2vh; z-index: 6; }
+  .img-login  { width: 10vw; min-width: 48px; }
+
+  /* Redes sociais */
+  .social-row {
+    display: none;
   }
   .social-btn { padding: 7px 12px; font-size: 0.72rem; }
 

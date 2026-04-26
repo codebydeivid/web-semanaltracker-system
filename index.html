@@ -34,14 +34,17 @@
 
 <!-- Inicio -->
 <div id="home">
-
   <!-- Ícones de navegação -->
-  <button class="icon-btn icon-quest"     data-tooltip="Registro da Semana"  onclick="openOverlay('ov-form')">
-    <img class="img-quest"     src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777070944/Registro_bjfohh.png"     alt="Registrar">
+  <button class="icon-btn icon-help"      data-tooltip="Como funciona?"      onclick="openOverlay('ov-help')">
+    <img class="img-help"      src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777065518/Ajuda_wop5h4.png"         alt="Ajuda">
   </button>
 
   <button class="icon-btn icon-dashboard" data-tooltip="Dashboard da Semana" onclick="openOverlay('ov-dashboard')">
     <img class="img-dashboard" src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777070054/Dashboard_twwtul.png"    alt="Dashboard">
+  </button>
+
+  <button class="icon-btn icon-quest"     data-tooltip="Registro da Semana"  onclick="openOverlay('ov-form')">
+    <img class="img-quest"     src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777070944/Registro_bjfohh.png"     alt="Registrar">
   </button>
 
   <button class="icon-btn icon-calendar"  data-tooltip="Calendário"          onclick="openOverlay('ov-calendar')">
@@ -50,10 +53,6 @@
 
   <button class="icon-btn icon-notes"     data-tooltip="Notas Gerais"        onclick="openOverlay('ov-notes')">
     <img class="img-notes"     src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777065888/Notas_fiofvx.png"         alt="Notas">
-  </button>
-
-  <button class="icon-btn icon-help"      data-tooltip="Como funciona?"      onclick="openOverlay('ov-help')">
-    <img class="img-help"      src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777065518/Ajuda_wop5h4.png"         alt="Ajuda">
   </button>
 
   <button class="icon-btn icon-login"     data-tooltip="Cadastro & Login"    onclick="openOverlay('ov-login')">
@@ -66,7 +65,7 @@
     <img src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777140265/Bal%C3%A3o_dfmz56.png" id="cloud-extra" alt="Balão">
   </div>
 
-  <!-- Redes sociais -->
+  <!-- Redes sociais (desktop) -->
   <div class="social-row">
     <a class="social-btn" href="https://www.instagram.com/deivid.hik/" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18">
@@ -83,9 +82,55 @@
       GitHub
     </a>
   </div>
+
+  <!-- ── MOBILE: poste + ícones em coluna ── -->
+  <div class="mobile-poste-wrapper">
+
+    <!-- Ícones em coluna-->
+    <div class="mobile-icons-col">
+      <button class="icon-btn icon-help" data-tooltip="Como funciona?" onclick="openOverlay('ov-help')">
+        <img class="img-help" src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777065518/Ajuda_wop5h4.png" alt="Ajuda">
+      </button>
+      <button class="icon-btn icon-dashboard" data-tooltip="Dashboard da Semana" onclick="openOverlay('ov-dashboard')">
+        <img class="img-dashboard" src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777070054/Dashboard_twwtul.png" alt="Dashboard">
+      </button>
+      <button class="icon-btn icon-quest" data-tooltip="Registro da Semana" onclick="openOverlay('ov-form')">
+        <img class="img-quest" src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777070944/Registro_bjfohh.png" alt="Registrar">
+      </button>
+      <button class="icon-btn icon-notes" data-tooltip="Notas Gerais" onclick="openOverlay('ov-notes')">
+        <img class="img-notes" src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777065888/Notas_fiofvx.png" alt="Notas">
+      </button>
+      <button class="icon-btn icon-calendar" data-tooltip="Calendário" onclick="openOverlay('ov-calendar')">
+        <img class="img-calendar" src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777057916/Calend%C3%A1rio_bopnwl.png" alt="Calendário">
+      </button>
+    </div>
+
+    <!-- Poste ocupa 100% da largura -->
+    <img src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777058241/Poste_milqgi.png" class="bg-poste-mobile" alt="">
+
+    <!-- Redes sociais (mobile) -->
+    <div class="social-row">
+      <a class="social-btn" href="https://www.instagram.com/deivid.hik/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="5"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+        Instagram
+      </a>
+      <a class="social-btn" href="https://github.com/codebydeivid" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+        </svg>
+        GitHub
+      </a>
+    </div>
+
+  </div><!-- /mobile-poste-wrapper -->
+
 </div>
 
-<!-- Poste decorativo -->
+<!-- Poste decorativo (desktop) -->
 <img src="https://res.cloudinary.com/dqx5nqule/image/upload/v1777058241/Poste_milqgi.png" class="bg-poste" alt="">
 
 <!-- OVERLAY - LOGIN/CONTA -->
@@ -102,7 +147,10 @@
         <div class="auth-error" id="auth-error"></div>
         <input class="inp" id="auth-email"    type="email"    placeholder="E-mail" autocomplete="email">
         <input class="inp" id="auth-password" type="password" placeholder="Senha"  autocomplete="current-password">
-        <button class="btn-primary"   onclick="login()">Entrar</button>
+        <button class="btn-primary" onclick="login()">Entrar</button>
+        <div style="text-align:center;margin-top:8px">
+          <button onclick="showForgot()" style="background:none;border:none;color:#1a6bbf;font-size:0.8rem;cursor:pointer;font-family:var(--font-body);text-decoration:underline;">Esqueci minha senha</button>
+        </div>
         <div class="auth-divider">ou</div>
         <button class="btn-secondary" onclick="showSignup()">Criar conta</button>
       </div>
@@ -110,19 +158,38 @@
       <!-- Formulário de cadastro -->
       <div id="auth-signup-view" style="display:none">
         <div class="auth-error" id="signup-error"></div>
-        <input class="inp" id="signup-email"     type="email"    placeholder="E-mail"                    autocomplete="email">
+        <input class="inp" id="signup-email"     type="email"    placeholder="E-mail"                      autocomplete="email">
         <input class="inp" id="signup-password"  type="password" placeholder="Senha (mínimo 6 caracteres)" autocomplete="new-password">
-        <input class="inp" id="signup-password2" type="password" placeholder="Confirmar senha"            autocomplete="new-password">
+        <input class="inp" id="signup-password2" type="password" placeholder="Confirmar senha"              autocomplete="new-password">
         <button class="btn-primary"   onclick="signup()">Criar conta</button>
         <div class="auth-divider">ou</div>
         <button class="btn-secondary" onclick="showLogin()">Já tenho conta</button>
+      </div>
+
+      <!-- Recuperar senha -->
+      <div id="auth-forgot-view" style="display:none">
+        <div class="auth-error" id="forgot-error"></div>
+        <p style="font-size:0.83rem;color:#555;margin-bottom:14px">Digite seu e-mail e enviaremos um link para redefinir sua senha.</p>
+        <input class="inp" id="forgot-email" type="email" placeholder="E-mail" autocomplete="email">
+        <button class="btn-primary" onclick="sendPasswordReset()">Enviar link</button>
+        <div class="auth-divider">ou</div>
+        <button class="btn-secondary" onclick="showLogin()">Voltar ao login</button>
+      </div>
+
+      <!-- Nova senha (após clicar no link do e-mail) -->
+      <div id="auth-newpass-view" style="display:none">
+        <div class="auth-error" id="newpass-error"></div>
+        <p style="font-size:0.83rem;color:#555;margin-bottom:14px">Escolha uma nova senha para sua conta.</p>
+        <input class="inp" id="newpass-password"  type="password" placeholder="Nova senha (mínimo 6 caracteres)" autocomplete="new-password">
+        <input class="inp" id="newpass-password2" type="password" placeholder="Confirmar nova senha"              autocomplete="new-password">
+        <button class="btn-primary" onclick="saveNewPassword()">Salvar nova senha</button>
       </div>
 
       <!-- Usuário logado -->
       <div id="auth-logged-view" style="display:none;text-align:center;padding:12px 0">
         <div style="font-size:2.2rem;margin-bottom:10px"><i data-lucide="user"></i></div>
         <div style="font-weight:700;margin-bottom:4px" id="logged-email-display"></div>
-        <div style="font-size:0.8rem;color:var(--muted);margin-bottom:20px">Conta conectada ao Supabase</div>
+        <div style="font-size:0.8rem;color:#555;margin-bottom:20px">Conta conectada ao Supabase</div>
         <button class="btn-secondary" style="width:auto;padding:10px 24px" onclick="logout()">Sair da conta</button>
       </div>
 
